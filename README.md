@@ -25,7 +25,7 @@ points over the course of a few weeks for 5 different vehicles.
 
 ## Task 1: Write some code and a README
 
-Your first task is to write a command0line program that reads the data in the
+Your first task is to write a command line program that reads the data in the
 csv and is able to execute these two queries.
 
  1. `charged_above`: This query should return the number of vehicles that
