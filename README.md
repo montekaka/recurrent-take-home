@@ -1,0 +1,90 @@
+# Recurrent Software Developer Take-Home Assignment
+
+At Recurrent, we work with data we collect from people’s electric vehicles
+(EVs). Currently, we collect between one and three data points a day (usually)
+from each vehicle. The data we collect includes the following information:
+
+ - `charge_reading`: The vehicle’s State of Charge (SoC), a decimal number
+   representing the current charge level of the battery in terms of percentage.
+(For example, 0.33 means the battery is 33% charged.)
+ - `range_estimate`: The estimated range that the vehicle can drive before the
+   battery is depleted, expressed in miles as a decimal number.
+ - `odometer`: The vehicle’s current odometer reading, expressed in miles as an
+   integer.
+ - `plugged_in`: Whether or not the vehicle is plugged in at the time of the
+   reading, expressed as a boolean.
+ - `charging`: Whether or not the vehicle is actively charging at the time of
+   the reading, expressed as a boolean.
+ - `created_at`: Timestamp of the reading, expressed in a string of the format
+   "yyyy-mm-dd hh:mm:ss", the timezone is UTC for all readings.
+ - `vehicle_id`: A unique identifier tied to the vehicle, expressed as a
+   string.
+
+The comma-separated-values(csv) file in this repo contains a collection of data
+points over the course of a few weeks for 5 different vehicles.
+
+## Task 1: Write some code and a README
+
+Your first task is to write a command0line program that reads the data in the
+csv and is able to execute these two queries.
+
+ 1. `charged_above`: This query should return the number of vehicles that
+    charged above a given % over the whole time period, so it should take a
+    charge % as an argument.
+ 2. `average_daily_miles`: This query should return the average daily miles for
+    a given vehicle over the course of the time period of the dataset, so it
+    should take vehicle id as an argument. (For example, if the given vehicle
+    travelled 140 miles over a two week period, this should return 10).
+
+We would like to be able to execute the query by typing a command that executes
+your program by passing in three required arguments.
+ 1. the path to the csv file for the data
+ 2. the name of the query (specified in bold in the list above)
+ 3. one argument to be passed to the query (a vehicle identifier, or a number,
+    as specified in the query description)
+
+For example, if the program you have written is in ruby, and the entry point
+file is named "ev_data_query.rb", then the command you would type in to execute
+query number 2 below is:
+
+```
+ruby ev_data_query.rb /path/to/csv/file average_daily_miles cat-car
+```
+
+## Task 2: Write a ticket for a teammate to implement a new query
+
+Imagine a teammate is planning to expand on your work and implement a new query
+in the next sprint. Write a ticket that roughly outlines the work to be done to
+implement this new query:
+
+ - `drove_nowhere`: This query should return the number of vehicles that were
+   not driven at all on a given date, so it should take a date as an argument.
+
+Include this write-up in your README file. We expect to see you call out where
+requirements are ambiguous and suggest some potential approaches, but avoid
+prescribing exact implementation details.
+
+## What we expect:
+
+ - We don’t expect you to spend more than ~2-4 hours on this. Please don’t
+   spend any longer on it, even if you didn’t finish it. That is fine! The next
+   stage of the interview process builds on this work.
+ - You can use any language you prefer, but try to make it easy for us to run
+   your code! We happen to be most comfortable with ruby, javascript, python.
+ - There is no deadline for this, go ahead and send it to us when you are
+   ready.
+ - Submit your solution source code files to us by emailing them to us. You can
+   choose one of the following ways:
+   - Email a link to a github repo
+   - Email a zip file containing the files
+   - Email a link to a zip file hosted on a cloud service (dropbox, etc…)
+ - We prioritize readable code that meets the requirements.
+ - We expect to see some automated tests for important functionality.
+ - Most importantly, we expect you to include a README. This should contain:
+   - A description of the project with directions about how to run the code.
+     (Especially detail this as if someone wouldn’t know how to get started.)
+   - Information about assumptions and decisions you made along the way! We’d
+     love to hear your thought-process and tradeoffs you made.
+   - A discussion of what would you would think about improving if you spent
+     more time on it (and why).
+   - The ticket write-up from Task 2.
