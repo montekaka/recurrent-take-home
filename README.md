@@ -29,9 +29,9 @@ Your first task is to write a command line program that reads the data in the
 csv and is able to execute these two queries.
 
  1. `charged_above`: This query should return the number of vehicles that
-    charged above a given % over the whole time period, so it should take a
-    charge % as an argument. This argument should be a decimal, for example 0.33
-    will be passed to indicate 33%.
+    reported at least one `charge_reading` above a given % over the whole time
+    period. It should take a charge % as an argument. This argument should be a
+    decimal, for example 0.33 will be passed to indicate 33%.
  2. `average_daily_miles`: This query should return the average daily miles for
     a given vehicle over the course of the time period of the dataset, so it
     should take `vehicle_id` as an argument. (For example, if the given vehicle
