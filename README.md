@@ -48,9 +48,9 @@ your program by passing in three required arguments.
 3.  one argument to be passed to the query (a vehicle identifier, or a number,
     as specified in the query description)
 
-For example, if the program you have written is in ruby, and the entry point
-file is named "ev_data_query.rb", then the command you would type in to execute
-query number 2 below is:
+For example: if the program you have written is in ruby, the entry point
+file is named "ev_data_query.rb", and you've chosen to work with the CSV
+file, then the command you would type to execute query number 2 below is:
 
 ```
 ruby ev_data_query.rb /path/to/data/file.csv average_daily_miles cat-car
