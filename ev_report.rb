@@ -68,4 +68,5 @@ class EvReport
 
     return data
   end
+  
 end

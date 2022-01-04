@@ -1,0 +1,7 @@
+vehicle_id,charge_reading,range_estimate,odometer,plugged_in,charging,created_at
+cat-car,0.2,40,1200,TRUE,TRUE,2020-01-01 12:01:03
+cat-car,0.73,80,1200,TRUE,TRUE,2020-01-01 22:30:01
+clown-car,1,268.35,56306,TRUE,FALSE,2020-01-04 5:58:52
+hamster-car,0.5,119.36,26171,FALSE,FALSE,2020-01-13 11:52:57
+hamster-car,0.49,123.2,26173,FALSE,FALSE,2020-01-13 13:49:38
+hamster-car,0.49,123.34,26173,FALSE,FALSE,2020-01-14 12:24:08
