@@ -12,6 +12,14 @@ class EvReportTest < MiniTest::Unit::TestCase
         assert_equal(count, 2)
       end
     end
+
+    it "must return 3" do
+      def test_charged_above
+        ev_report = EvReport.new
+        count = ev_report.charged_above("./test_data/ev_data_1.csv", 0.1)
+        assert_equal(count, 3)
+      end
+    end    
   end
 
 end
