@@ -1,25 +1,16 @@
 require 'minitest/autorun'
 require_relative "ev_report"
 
-class EvReportTest < MiniTest::Unit::TestCase
-  
-
-  describe "test charged_above" do
-    it "must return 2" do
-      def test_charged_above
-        ev_report = EvReport.new
-        count = ev_report.charged_above("./test_data/ev_data_1.csv", 0.7)
-        assert_equal(count, 2)
-      end
-    end
-
-    it "must return 3" do
-      def test_charged_above
-        ev_report = EvReport.new
-        count = ev_report.charged_above("./test_data/ev_data_1.csv", 0.1)
-        assert_equal(count, 3)
-      end
-    end    
+class EvReportTest < Minitest::Test
+  def test_charged_above
+    ev_report = EvReport.new
+    res = ev_report.charged_above("./test_data/ev_data_1.csv", 0.7)
+    assert_equal(res, 2, "charged_above 0.7 must equal 2")
   end
 
+  def test_average_daily_miles
+    ev_report = EvReport.new
+    res = ev_report.average_daily_miles("./test_data/ev_data_1.csv", "cat-car")
+    assert_equal(res, 60, "average_daily_miles for cat-car must equal 60")
+  end  
 end
