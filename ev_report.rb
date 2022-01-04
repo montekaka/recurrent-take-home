@@ -37,6 +37,12 @@ class EvReport
     # 1. get the total miles for the given vehicle
     # 2. get the total days (of record) for the give vehicle
     # 3. use total miles / total days to calculate average
+
+    date_from = nil
+    date_to = nil
+
+    odometer_from = 0
+    odometer_to = 0
     
     total_miles = 0
     total_days = 0
@@ -45,9 +51,26 @@ class EvReport
       line = record.to_h
       if line["vehicle_id"] == vehicle_id
         total_miles += line['range_estimate'].to_f
-        total_days += 1
+        if date_from == nil || (date_from != nil && Date.parse(line['created_at']) < date_from)
+          date_from = Date.parse(line['created_at'])
+        end        
+
+        if date_to == nil || (date_to != nil && Date.parse(line['created_at']) > date_to)
+          date_to = Date.parse(line['created_at'])
+        end
+
+        if odometer_from == 0 || line['odometer'].to_i < odometer_from
+          odometer_from = line['odometer'].to_i
+        end
+
+        if odometer_to == 0 || line['odometer'].to_i > odometer_to
+          odometer_to = line['odometer'].to_i
+        end        
       end
     end
+
+    total_days = (date_to - date_from) + 1
+    total_miles = odometer_to - odometer_from
 
     if total_days > 0
       return total_miles / total_days
