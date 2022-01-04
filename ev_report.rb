@@ -57,7 +57,15 @@ class EvReport
   end  
 
   private
+
   def read_data file_path
-    data = CSV.read(file_path, headers: true)
+    data = []
+    begin
+      data = CSV.read(file_path, headers: true)
+    rescue => error
+      p error.message
+    end
+
+    return data
   end
 end
