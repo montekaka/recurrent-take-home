@@ -59,18 +59,18 @@ class EvReport
           date_to = Date.parse(line['created_at'])
         end
 
-        if odometer_from == 0 || line['odometer'].to_i < odometer_from
-          odometer_from = line['odometer'].to_i
+        if odometer_from == 0 || line['odometer'].to_f < odometer_from
+          odometer_from = line['odometer'].to_f
         end
 
-        if odometer_to == 0 || line['odometer'].to_i > odometer_to
-          odometer_to = line['odometer'].to_i
+        if odometer_to == 0 || line['odometer'].to_f > odometer_to
+          odometer_to = line['odometer'].to_f
         end        
       end
     end
 
     total_days = (date_to - date_from) + 1
-    total_miles = odometer_to - odometer_from
+    total_miles = (odometer_to - odometer_from).to_f
 
     if total_days > 0
       return total_miles / total_days
