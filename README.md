@@ -99,20 +99,63 @@ prescribing exact implementation details.
 
 ## Submission
 
+### How to get started
+
+1. Make sure install latest version Ruby.
+
+2. To run the code
+
+```
+ruby ev_data_query.rb ev_data.csv [query_name] [args]
+```
+
+Two Queries:
+
+i. charged_above
+
+This query returns the number of vehicles that reported at least one `charge_reading` above a given percentage over the whole time period. It takes a charge percentage in decimal for an argument.
+
+e.g.
+
+```
+ruby ev_data_query.rb ev_data.csv charged_above 0.2
+```
+
+ii. average_daily_miles
+
+This query returns the average daily miles for a given vehicle over the course of the time period of the dataset, so it takes `vehicle_id` as an argument.
+
+e.g.
+
+```
+ruby ev_data_query.rb ev_data.csv average_daily_miles cat-car
+```
+
+### Assumptions
+
+1. Dataset is correct, and fit in the memory
+2. For `charged_above`, the argument is between 0 and 1.
+3. For `average_daily_miles`, the `vehicle_id` exists in the dataset.
+4. For `average_daily_miles`, if time range is less than 1 day, we extrapolate to 1 day.
 
 
+### Improvments
 
-### drove_nowhere
+1. Better in handling large size file.
 
-This query should return the number of vehicles that were not driven at all on a given date, so it should take a date as an argument.
+### Task 2: drove_nowhere
+
+Given the dataset, write a query called `drove_nowhere` that takes in a date and return the number of vehicles that were not driven on that given date in the string format `YYYY-MM-DD HH:MM:SS`.
+
+As the odometer only records based on the nearest mile, it is possible that the vehicle moved less than a mile between readings. Vehicles that show the same odometer readings between two dates should also be considered. For example, if we want to find all cars that were not driven on a Tuesday, we should also consider a vehicle that showed the same odometer reading on Monday and on Wednesday as not driven on that Tuesday.
 
 Todo:
 
-1. Go to the `ev_report.rb` file and add teh `drove_nowhere` method to the `EvReport` class.
+1. Go to the `ev_report.rb` file and add the `drove_nowhere` method to the `EvReport` class.
 
-2. `drove_nowhere` should take `created_at` as an argument, and returns the number of vehicles.
+2. `drove_nowhere` takes string format `YYYY-MM-DD HH:MM:SS` as an argument, and returns the number of vehicles.
 
-For example: given the dataset below, and `2020-01-14` as the input, we should expect the funciton return `1`, which is the `cat-car`
+Given a dataset below
 
 | vehicle_id | charge_reading | range_estimate | odometer | plugged_in | charging | created_at |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -122,8 +165,14 @@ For example: given the dataset below, and `2020-01-14` as the input, we should e
 | hamster-car | 0.5 | 123.2 | 26171 | FALSE | FALSE | 2020-01-13 11:52:57 |
 | hamster-car | 0.49 | 123.2 | 26173 | FALSE | FALSE | 2020-01-13 13:49:38 |
 | hamster-car | 0.49 | 123.34 | 26173 | FALSE | FALSE | 2020-01-14 12:24:08 | 
+| hamster-car | 0.49 | 123.34 | 26173 | FALSE | FALSE | 2020-01-17 12:24:08 | 
 
-3. To run the query, you will need to first initial the object wit the csv file path
+- `2020-01-14`: we expect the function return `1`, which is the `cat-car`
+- `2020-01-13`: we expect the function return `1`, which is the `hamster-car`
+- `2020-01-04`: we expect the function return `0`, because we only get one entry for the `clown-car`
+- `2020-01-15`: we expect the function return `1`, which is the `hamster-car`
+
+3. To run the query, you will need to first initialize the object with the csv file path
 
 ```
 ev_report = EvRport.new('ev_data.csv')
