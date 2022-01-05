@@ -56,7 +56,6 @@ file, then the command you would type to execute query number 2 below is:
 ruby ev_data_query.rb /path/to/data/file.csv average_daily_miles cat-car
 ```
 
-
 ## Task 2: Write a ticket for a teammate to implement a new query
 
 Imagine a teammate is planning to expand on your work and implement a new query
@@ -96,3 +95,39 @@ prescribing exact implementation details.
   - A discussion of what would you would think about improving if you spent
     more time on it (and why).
   - The ticket write-up from Task 2.
+
+
+## Submission
+
+
+
+
+### drove_nowhere
+
+This query should return the number of vehicles that were not driven at all on a given date, so it should take a date as an argument.
+
+Todo:
+
+1. Go to the `ev_report.rb` file and add teh `drove_nowhere` method to the `EvReport` class.
+
+2. `drove_nowhere` should take `created_at` as an argument, and returns the number of vehicles.
+
+For example: given the dataset below, and `2020-01-14` as the input, we should expect the funciton return `1`, which is the `cat-car`
+
+| vehicle_id | charge_reading | range_estimate | odometer | plugged_in | charging | created_at |
+| --- | --- | --- | --- | --- | --- | --- |
+| cat-car | 0.2 | 40  | 1200 | TRUE | TRUE | 2020-01-13 12:01:03 |
+| cat-car | 0.73 | 80  | 1200 | TRUE | TRUE | 2020-01-14 22:30:01 |
+| clown-car | 1   | 268.35 | 56306 | TRUE | FALSE | 2020-01-04 5:58:52 |
+| hamster-car | 0.5 | 123.2 | 26171 | FALSE | FALSE | 2020-01-13 11:52:57 |
+| hamster-car | 0.49 | 123.2 | 26173 | FALSE | FALSE | 2020-01-13 13:49:38 |
+| hamster-car | 0.49 | 123.34 | 26173 | FALSE | FALSE | 2020-01-14 12:24:08 | 
+
+3. To run the query, you will need to first initial the object wit the csv file path
+
+```
+ev_report = EvRport.new('ev_data.csv')
+date = Date.parse("2020-01-14")
+ev_report.drove_nowhere(date)
+```
+
