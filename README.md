@@ -176,7 +176,6 @@ Given a dataset below
 
 ```
 ev_report = EvRport.new('ev_data.csv')
-date = Date.parse("2020-01-14")
-ev_report.drove_nowhere(date)
+ev_report.drove_nowhere("2020-01-14")
 ```
 
