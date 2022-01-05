@@ -1,5 +1,6 @@
 require 'csv'
 require 'set'
+require 'date'
 
 class EvReport
   def initialize(file_path)
@@ -26,7 +27,7 @@ class EvReport
 
       return result.length
     else
-      return nil
+      return 0
     end
   end
 
@@ -52,26 +53,22 @@ class EvReport
     @data.each do |record|
       line = record.to_h
       if line["vehicle_id"] == vehicle_id
-        total_miles += line['range_estimate'].to_f
-        if date_from == nil || (date_from != nil && Date.parse(line['created_at']) < date_from)
-          date_from = Date.parse(line['created_at'])
-        end        
 
-        if date_to == nil || (date_to != nil && Date.parse(line['created_at']) > date_to)
-          date_to = Date.parse(line['created_at'])
-        end
+        record_date = DateTime.parse(line['created_at']).to_time
 
-        if odometer_from == 0 || line['odometer'].to_f < odometer_from
+        if date_from == nil || (date_from != nil && record_date < date_from)
+          date_from = record_date
           odometer_from = line['odometer'].to_f
-        end
-
-        if odometer_to == 0 || line['odometer'].to_f > odometer_to
-          odometer_to = line['odometer'].to_f
         end        
+
+        if date_to == nil || (date_to != nil && record_date > date_to)
+          date_to = record_date
+          odometer_to = line['odometer'].to_f
+        end     
       end
     end
 
-    total_days = (date_to - date_from) + 1
+    total_days = (date_to.to_date - date_from.to_date).to_i + 1 # add 1 to adjust the start date
     total_miles = (odometer_to - odometer_from).to_f
 
     if total_days > 0
