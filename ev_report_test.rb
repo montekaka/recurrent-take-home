@@ -20,4 +20,12 @@ class EvReportTest < Minitest::Test
     assert_equal(1, res, "average_daily_miles for cat-car must equal 1")
   end  
 
+  def test_read_csv
+    ev_report = EvReport.new("./test_data/ev_data_1.csv")
+    assert_equal(6, ev_report.data.length, "csv file row must equal 6")
+
+    ev_report = EvReport.new("./test_data/ev_data_2.csv")
+    assert_equal(0, ev_report.data.length, "wrong csv file path should return 0")    
+  end
+
 end
