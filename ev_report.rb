@@ -2,18 +2,18 @@ require 'csv'
 require 'set'
 
 class EvReport
-  def initialize
+  def initialize(file_path)
+    @file_path = file_path
+    @data = read_data file_path
   end
 
-  def charged_above file_path, charge
-    if file_path && charge && charge.to_f >= 0  && charge.to_f <= 1
-      # make sure user entered file_path, and charge amount exists and is between 0 and 1
-
-      data = read_data(file_path)    
+  def charged_above charge
+    if charge && charge.to_f >= 0  && charge.to_f <= 1
+      # make sure the charge amount exists and is between 0 and 1
       
       # compare each charge read, and add the vehicle id to the result set if the meets the condition
       result = Set.new
-      data.each do |record|
+      @data.each do |record|
         line = record.to_h
         if line["charge_reading"].to_f >= charge.to_f
           result.add(record.to_h["vehicle_id"])
@@ -26,12 +26,10 @@ class EvReport
     end
   end
 
-  def average_daily_miles file_path, vehicle_id
-    if file_path == nil || vehicle_id == nil
+  def average_daily_miles vehicle_id
+    if vehicle_id == nil
       return nil
     end
-
-    data = read_data(file_path)
 
     # calculate the average daily miles 
     # 1. get the total miles for the given vehicle
@@ -47,7 +45,7 @@ class EvReport
     total_miles = 0
     total_days = 0
 
-    data.each do |record|
+    @data.each do |record|
       line = record.to_h
       if line["vehicle_id"] == vehicle_id
         total_miles += line['range_estimate'].to_f
