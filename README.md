@@ -56,6 +56,7 @@ file, then the command you would type to execute query number 2 below is:
 ruby ev_data_query.rb /path/to/data/file.csv average_daily_miles cat-car
 ```
 
+
 ## Task 2: Write a ticket for a teammate to implement a new query
 
 Imagine a teammate is planning to expand on your work and implement a new query

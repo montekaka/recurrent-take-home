@@ -9,6 +9,9 @@ class EvReportTest < Minitest::Test
 
     res = ev_report.charged_above("./test_data/ev_data_1.csv", 0.2)
     assert_equal(3, res, "charged_above 0.7 must equal 2")
+
+    res = ev_report.charged_above("./test_data/ev_data_2.csv", 0.2)
+    assert_nil(res, 'charged_above with wrong file path returns nil')
   end
 
   def test_average_daily_miles
