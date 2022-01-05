@@ -7,6 +7,10 @@ class EvReport
     @data = read_data file_path
   end
 
+  def data
+    @data
+  end
+
   def charged_above charge
     if charge && charge.to_f >= 0  && charge.to_f <= 1
       # make sure the charge amount exists and is between 0 and 1
