@@ -131,6 +131,12 @@ e.g.
 ruby ev_data_query.rb ev_data.csv average_daily_miles cat-car
 ```
 
+3. To run the test
+
+```
+ruby ev_report_test.rb
+```
+
 ### Assumptions
 
 1. Dataset is correct, and fit in the memory
@@ -179,3 +185,4 @@ ev_report = EvRport.new('ev_data.csv')
 ev_report.drove_nowhere("2020-01-14")
 ```
 
+4. Add tests to the `ev_report_test.rb`.
