@@ -23,9 +23,37 @@ class EvReportTest < Minitest::Test
   def test_read_csv
     ev_report = EvReport.new("./test_data/ev_data_1.csv")
     assert_equal(6, ev_report.data.length, "csv file row must equal 6")
+  end
 
+  def test_drove_nowhere
     ev_report = EvReport.new("./test_data/ev_data_2.csv")
-    assert_equal(0, ev_report.data.length, "wrong csv file path should return 0")    
+
+    res = ev_report.drove_nowhere("2019-09-21")
+    assert_equal(0, res, "drove_nowhere for 2019-09-21 must equal 0")
+        
+    res = ev_report.drove_nowhere("2020-01-01")
+    assert_equal(0, res, "drove_nowhere for 2020-01-01 must equal 0")
+    
+    res = ev_report.drove_nowhere("2020-01-02")
+    assert_equal(0, res, "drove_nowhere for 2020-01-02 must equal 1")    
+
+    res = ev_report.drove_nowhere("2020-01-03")
+    assert_equal(0, res, "drove_nowhere for 2020-01-03 must equal 1")
+
+    res = ev_report.drove_nowhere("2020-01-04")
+    assert_equal(0, res, "drove_nowhere for 2020-01-04 must equal 1")  
+    
+    res = ev_report.drove_nowhere("2020-01-05")
+    assert_equal(0, res, "drove_nowhere for 2020-01-05 must equal 0")
+
+    res = ev_report.drove_nowhere("2020-01-06")
+    assert_equal(0, res, "drove_nowhere for 2020-01-06 must equal 0")
+    
+    res = ev_report.drove_nowhere("2020-01-07")
+    assert_equal(0, res, "drove_nowhere for 2020-01-07 must equal 0")    
+
+    res = ev_report.drove_nowhere("2020-02-21")
+    assert_equal(0, res, "drove_nowhere for 2020-02-21 must equal 0")        
   end
 
 end
