@@ -1,0 +1,6 @@
+vehicle_id,charge_reading,range_estimate,odometer,plugged_in,charging,created_at
+cat-car,0.2,40,1000,TRUE,TRUE,2020-01-01 12:01:03
+cat-car,0.73,80,1000,TRUE,TRUE,2020-01-03 22:30:01
+cat-car,0.73,80,1000,TRUE,TRUE,2020-01-05 12:30:01
+cat-car,0.73,80,2000,TRUE,TRUE,2020-01-05 22:30:01
+cat-car,0.73,80,4000,TRUE,TRUE,2020-01-07 22:30:01
