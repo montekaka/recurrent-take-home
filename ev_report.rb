@@ -78,6 +78,129 @@ class EvReport
     end
   end  
 
+  def drove_nowhere query_date_str
+    # query_date_time = DateTime.parse(query_date_str).to_time
+    query_date = Date.parse(query_date_str)
+    
+    dicts = {}
+    # For each EV, find the nearest date     
+    # e.g. dict
+    # {
+    #   'cat-car': {
+    #     "closest_earlier_date": 1000001,
+    #     "closest_earlier_date_miles": 2000,
+    #     "earliest_same_date": 1000002,
+    #     "earliest_same_date_miles": 2000
+    #     "latest_same_date": 1000002,
+    #     "latest_same_date_miles": 2000    
+    #     "closest_later_date": 1000003,
+    #     "closest_later_date_miles": 2001        
+    #   }
+    # }
+
+    # 1/1/2022....1/3/2022....1/5/2022....1/8/2022
+    # ..1000........1000........1000........4000
+    #                           2000
+
+    # cat-car, 1/7/2022
+
+    # 1/1/2022 {"closest_earlier_date": 1/1/2022, "latest_same_date": null, "closest_later_date": 1/1/2022}
+    # 1/2/2022 {"closest_earlier_date": 1/2/2022, "latest_same_date": null, "closest_later_date": 1/2/2022}
+    # 1/3/2022 {"closest_earlier_date": 1/3/2022, "latest_same_date": null, "closest_later_date": 1/3/2022}
+    # 1/5/2022 {"closest_earlier_date": 1/5/2022, "latest_same_date": null, "closest_later_date": 1/5/2022}
+    # 1/5/2022 
+    # 1/8/2022 {"closest_earlier_date": 1/5/2022, "latest_same_date": null, "closest_later_date": 1/8/2022}
+    
+    # vehicle_id
+    # created_at
+    # odometer
+
+    @data.each do |record|
+      vehicle_id = record["vehicle_id"]
+      created_at = record["created_at"]
+      odometer = record["odometer"]
+      vehicle = dicts[vehicle_id]
+      if vehicle == nil
+        # add a new one
+        if Date.parse(created_at) == query_date
+          {
+            "closest_earlier_date": nil,
+            "closest_earlier_date_miles": nil,
+            "closest_later_date": nil,
+            "closest_later_date_miles": nil,                    
+            "earliest_same_date": created_at,
+            "earliest_same_date_miles": odometer,
+            "latest_same_date": created_at,
+            "latest_same_date_miles": odometer    
+          }
+        elsif Date.parse(created_at) < query_date
+          {
+            "closest_earlier_date": created_at,
+            "closest_earlier_date_miles": odometer,
+            "closest_later_date": nil,
+            "closest_later_date_miles": nil,                    
+            "earliest_same_date": nil,
+            "earliest_same_date_miles": nil,
+            "latest_same_date": nil,
+            "latest_same_date_miles": nil    
+          }
+        else 
+          {
+            "closest_earlier_date": nil,
+            "closest_earlier_date_miles": nil,
+            "closest_later_date": created_at,
+            "closest_later_date_miles": odometer,                    
+            "earliest_same_date": nil,
+            "earliest_same_date_miles": nil,
+            "latest_same_date": nil,
+            "latest_same_date_miles": nil    
+          }          
+        end
+      else
+        if Date.parse(created_at) == query_date
+          if vehicle["earliest_same_date"] == nil
+            # if DateTime.parse(created_at) < DateTime.parse(vehicle[closest_earlier_date])
+            vehicle["earliest_same_date"] = created_at
+            vehicle["earliest_same_date_miles"] = odometer
+            vehicle["latest_same_date"] = created_at
+            vehicle["latest_same_date_miles"] = odometer            
+          else
+            if DateTime.parse(created_at) < DateTime.parse(vehicle["earliest_same_date"])
+              vehicle["earliest_same_date"] = created_at
+              vehicle["earliest_same_date_miles"] = odometer
+            end
+
+            if DateTime.parse(created_at) > DateTime.parse(vehicle["latest_same_date"])
+              vehicle["latest_same_date"] = created_at
+              vehicle["latest_same_date_miles"] = odometer
+            end
+          end          
+        elsif Date.parse(created_at) < query_date
+          if vehicle["closest_earlier_date"] == nil || DateTime.parse(created_at) > DateTime.parse(vehicle["closest_earlier_date"])
+            vehicle["closest_earlier_date"] = created_at
+            vehicle["closest_earlier_date_miles"] = odometer
+          end
+        else
+          if vehicle["closest_later_date"] == nil || DateTime.parse(created_at) < DateTime.parse(vehicle["closest_later_date"])
+            vehicle["closest_later_date"] = created_at
+            vehicle["closest_later_date_miles"] = odometer            
+          end
+        end
+        
+      end
+    end
+
+    vehicles = dicts.keys
+    result = 0
+    vehicles.each do |vehicle|
+      if vehicle_moved vehicle
+        result += 1
+      end
+    end
+    
+    return result
+  end
+
   private
 
   def read_data file_path
@@ -89,6 +212,14 @@ class EvReport
     end
 
     return data
+  end
+
+  def vehicle_moved data
+    # ---|---|-----|----|----
+    #    1   1     2    3
+
+    if data
+    return false
   end
   
 end
